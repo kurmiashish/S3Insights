@@ -13,13 +13,13 @@
 #   limitations under the License
 
 import logging
-import random
 import os
 import string
 import sys
 from functools import wraps
 
 from lib import config
+import secrets
 
 
 def setup_logging(level):
@@ -84,7 +84,7 @@ def random_string(stringLength=10):
         string -- Random string
     """
     letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(stringLength))
+    return ''.join(secrets.SystemRandom().choice(letters) for i in range(stringLength))
 
 
 def compare_strings(string1, string2):
