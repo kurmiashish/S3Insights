@@ -174,7 +174,7 @@ def send_welcome_email():
     source_buckets = ddb.get_source_buckets()
     for account_id in source_buckets:
         # Let's calculate the value for rowspan
-        account_row_span = sum([len(source_buckets[account_id][region]) for region in source_buckets[account_id]])
+        account_row_span = sum(len(source_buckets[account_id][region]) for region in source_buckets[account_id])
         inserted_account_row = False
         for region in source_buckets[account_id]:
             region_row_span = len(source_buckets[account_id][region])
