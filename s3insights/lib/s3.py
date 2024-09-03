@@ -16,13 +16,13 @@ from botocore.exceptions import ClientError
 from botocore.config import Config as botocore_config
 import json
 import logging
-import random
 import time
 
 from lib import awshelper
 from lib import config
 from lib import ddb
 from lib import utility
+import secrets
 
 
 def get_source_buckets(input_parameters, account_id):
@@ -454,7 +454,7 @@ def copy_inventory_object_into_consolidation_bucket(run_id, source_bucket_name, 
             new_object_key)
     except ClientError as e:
         if 'Error' in e.response and 'Code' in e.response['Error']['Code'] and utility.compare_strings(e.response['Error']['Code'], "slowdown"):
-            wait_in_seconds = random.randint(1, 120)
+            wait_in_seconds = secrets.SystemRandom().randint(1, 120)
 
             # S3 is throttling upload operations. Let's back off for a few seconds
             logging.warning(f's3 is throttling copy request for {source_bucket_name}:{source_object_key}. wait time in seconds:{wait_in_seconds}')
